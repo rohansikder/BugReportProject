@@ -16,5 +16,10 @@ public class UserList {
 		User u = new User(name, employeeID, email, department);
 		users.add(u);
 	}
+
+	@Override
+	public String toString() {
+		return "UserList [users=" + users + "]";
+	}
 	
 }
