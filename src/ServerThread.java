@@ -22,6 +22,7 @@ public class ServerThread extends Thread {
 	private int employeeID;
 	private String email;
 	private String department;
+	private boolean verifyLogin;
 
 	private BugList bugListThread;
 	private UserList userListThread;
@@ -44,11 +45,14 @@ public class ServerThread extends Thread {
 		}
 
 		readUsers();
+		
+		//Shows all users in userLinkedList
+		//System.out.println(userListThread.getList());
 
 		// Conversation from the server to the client
 		try {
 			do {
-				sendMessage("Press 1 to register.");
+				sendMessage("Press 1 to register or 2 to login.");
 				message = (String) in.readObject();
 
 				if (message.equalsIgnoreCase("1")) {
@@ -76,23 +80,23 @@ public class ServerThread extends Thread {
 					// Close the file.
 					out.close();
 				} else if (message.equalsIgnoreCase("2")) {
+					
+					sendMessage("Please enter email:");
+					email = (String) in.readObject();
 
-					/*
-					 * //message = "name"+"*"+"author"+"?"+"name1"+"*"+"author1"+"?"; message =
-					 * lib.getList();
-					 * 
-					 * //Option 1 //sendMessage(message);
-					 * 
-					 * //Option2 String[] books = message.split("\\?");
-					 * 
-					 * sendMessage(""+books.length);
-					 * 
-					 * for(int i=0;i<books.length;i++) { String[] details = books[i].split("\\*");
-					 * 
-					 * sendMessage(details[0]); sendMessage(details[1]);
-					 * 
-					 * }
-					 */
+					sendMessage("Please enter employee ID:");
+					String employeeIDTemp = (String) in.readObject();
+					employeeID = Integer.parseInt(employeeIDTemp);
+					
+					verifyLogin = userListThread.checkLogin(email, employeeID);
+					
+					if(verifyLogin == true) {
+						sendMessage("Login is successful!");
+					}else {
+						sendMessage("Login is unsucsessfull please try again.");
+					}
+					
+					
 				}
 
 				sendMessage("Please enter 1 to repeat or 2 to exit");
@@ -150,7 +154,7 @@ public class ServerThread extends Thread {
 				case 4:
 					choice = 1;
 					department = scanner.nextLine();
-					// System.out.println("This is department " + department.replace(",", ""));
+					department = department.replace(",", "");
 					userListThread.addUser(name, employeeID, email, department);
 					break;
 				}
