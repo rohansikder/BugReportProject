@@ -3,12 +3,12 @@ public class Bug {
 	
 	private int id;
 	private String application;
-	private int date;
+	private String date;
 	private String platform;
 	private String description;
 	private String status;
 	
-	public Bug(int id, String application, int date, String platform, String description, String status) {
+	public Bug(int id, String application, String date, String platform, String description, String status) {
 		super();
 		this.id = id;
 		this.application = application;
@@ -26,7 +26,7 @@ public class Bug {
 		return application;
 	}
 
-	public int getDate() {
+	public String getDate() {
 		return date;
 	}
 

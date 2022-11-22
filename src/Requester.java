@@ -54,26 +54,45 @@ public class Requester{
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+				}else if(message.equalsIgnoreCase("2")){
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+				}else if(message.equalsIgnoreCase("3")){
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
 				}
 				
-				else if(message.equalsIgnoreCase("2"))
-				{
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
-				}
 					
 				message = (String)in.readObject();
 				System.out.println(message);
@@ -108,7 +127,7 @@ public class Requester{
 		try{
 			out.writeObject(msg);
 			out.flush();
-			System.out.println("client>" + msg);
+			System.out.println("Client>" + msg);
 		}
 		catch(IOException ioException){
 			ioException.printStackTrace();

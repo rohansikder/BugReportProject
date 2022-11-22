@@ -49,7 +49,7 @@ public class Provider{
 		try{
 			out.writeObject(msg);
 			out.flush();
-			System.out.println("server>" + msg);
+			System.out.println("Server>" + msg);
 		}
 		catch(IOException ioException){
 			ioException.printStackTrace();

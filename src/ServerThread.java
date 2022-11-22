@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ServerThread extends Thread {
@@ -22,10 +24,22 @@ public class ServerThread extends Thread {
 	private int employeeID;
 	private String email;
 	private String department;
+	
+	private int id = 0;
+	private String application;
+	private String date;
+	private String platform;
+	private String description;
+	private String status;
+	
+	
 	private boolean verifyLogin;
 
 	private BugList bugListThread;
 	private UserList userListThread;
+	
+	Date myDate = new Date();
+
 
 	public ServerThread(Socket s, BugList bl, UserList ul) {
 		socket = s;
@@ -43,16 +57,20 @@ public class ServerThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		//Reads in from files
 		readUsers();
+		readBugs();
 		
 		//Shows all users in userLinkedList
 		//System.out.println(userListThread.getList());
+		//System.out.println(bugListThread.getList());
+
 
 		// Conversation from the server to the client
 		try {
 			do {
-				sendMessage("Press 1 to register or 2 to login.");
+				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug:");
 				message = (String) in.readObject();
 
 				if (message.equalsIgnoreCase("1")) {
@@ -75,6 +93,7 @@ public class ServerThread extends Thread {
 					// Add user to the list....
 					userListThread.addUser(name, employeeID, email, department);
 
+					//Saves user details to file
 					out.println(name + "," + employeeID + "," + email + "," + department);
 
 					// Close the file.
@@ -96,8 +115,40 @@ public class ServerThread extends Thread {
 						sendMessage("Login is unsucsessfull please try again.");
 					}
 					
+				}else if (message.equalsIgnoreCase("3")) {
+					
+					id++;
+					
+					sendMessage("Please enter application name:");
+					application = (String) in.readObject();
+					
+					//Gets current date and time
+					SimpleDateFormat currTimeStamp = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
+					date = currTimeStamp.format(myDate);
+					
+					sendMessage("Please enter platform:");
+					platform = (String) in.readObject();
+					
+					sendMessage("Please enter bug description:");
+					description = (String) in.readObject();
+					
+					sendMessage("Please enter status of bug:");
+					status = (String) in.readObject();
+					
+					FileWriter fw = new FileWriter("bugs.txt", true);
+					PrintWriter out = new PrintWriter(fw);
+					
+					// Add bugs to the list....
+					bugListThread.addBug(id, application, date, platform, description, status);
+					
+					//Saves bug details to file
+					out.println(id + "," + application + "," + date + "," + platform + "," + description + "," + status);
+
+					// Close the file.
+					out.close();
 					
 				}
+				
 
 				sendMessage("Please enter 1 to repeat or 2 to exit");
 				message = (String) in.readObject();
@@ -121,8 +172,8 @@ public class ServerThread extends Thread {
 		}
 	}
 
+	// Read in from file and populate users linkedList
 	public void readUsers() {
-		// Read in from file and populate user linkedList
 		try {
 			// create scanner instance - Tried with CSV but gave weird characters first name
 			Scanner scanner = new Scanner(Paths.get("users.txt").toFile());
@@ -169,5 +220,65 @@ public class ServerThread extends Thread {
 			ex.printStackTrace();
 		}
 	}
+	
+	// Read in from file and populate bugs linkedList
+	public void readBugs() {
+		// Read in from file and populate bugs linkedList
+		try {
+			Scanner scanner = new Scanner(Paths.get("bugs.txt").toFile());
 
+			// set comma as delimiter
+			scanner.useDelimiter(",");
+
+			int choice = 1;
+
+			// read all fields
+			while (scanner.hasNext()) {
+				
+				
+				switch (choice) {
+				case 1:
+					choice = 2;
+					id = scanner.nextInt();
+					System.out.println(id);
+					break;
+				case 2:
+					choice = 3;
+					application = scanner.next();
+					//System.out.println(application);
+					break;
+				case 3:
+					choice = 4;
+					date = scanner.next();
+					//System.out.println(date);
+					break;
+				case 4:
+					choice = 5;
+					platform = scanner.next();
+					//System.out.println(platform);
+					break;
+				case 5:
+					choice = 6;
+					description = scanner.next();
+					//System.out.println(description);
+					break;
+				case 6:
+					choice = 1;
+					status = scanner.nextLine();
+					status = status.replace(",", "");
+					//System.out.println(status);
+					bugListThread.addBug(id, application, date, platform, description, status);
+					break;
+				}
+
+			}
+
+			// close the scanner
+			scanner.close();
+
+		} catch (FileNotFoundException ex) {
+			System.out.println("File with all bugs is not available!");
+			ex.printStackTrace();
+		}
+	}
 }
