@@ -5,13 +5,15 @@ public class User {
 	private int employeeID;
 	private String email;
 	private String department;
+	private int assignedBug;
 	
-	public User(String name, int employeeID, String email, String department) {
+	public User(String name, int employeeID, String email, String department, int assignedBug) {
 		super();
 		this.name = name;
 		this.employeeID = employeeID;
 		this.email = email;
 		this.department = department;
+		this.assignedBug = assignedBug;
 	}
 	
 	public String getName() {
@@ -29,6 +31,18 @@ public class User {
 	public String getDepartment() {
 		return department;
 	}
+
+	public int getAssignedBug() {
+		return assignedBug;
+	}
+
+	public void setAssignedBug(int assignedBug) {
+		this.assignedBug = assignedBug;
+	}
+	
+	
+	
+	
 	
 	
 }

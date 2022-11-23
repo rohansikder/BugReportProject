@@ -25,6 +25,9 @@ public class ServerThread extends Thread {
 	private String email;
 	private String department;
 	
+	private int assignedBug = 0;
+	private int assignedUser;
+	
 	private int id = 0;
 	private String application;
 	private String date;
@@ -70,7 +73,7 @@ public class ServerThread extends Thread {
 		// Conversation from the server to the client
 		try {
 			do {
-				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug:");
+				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer:");
 				message = (String) in.readObject();
 
 				if (message.equalsIgnoreCase("1")) {
@@ -91,10 +94,10 @@ public class ServerThread extends Thread {
 					PrintWriter out = new PrintWriter(fw);
 
 					// Add user to the list....
-					userListThread.addUser(name, employeeID, email, department);
+					userListThread.addUser(name, employeeID, email, department, assignedBug);
 
 					//Saves user details to file
-					out.println(name + "," + employeeID + "," + email + "," + department);
+					out.println(name + "," + employeeID + "," + email + "," + department + "," + assignedBug);
 
 					// Close the file.
 					out.close();
@@ -147,7 +150,21 @@ public class ServerThread extends Thread {
 					// Close the file.
 					out.close();
 					
+				}else if (message.equalsIgnoreCase("4")) {
+					
+					sendMessage("Please enter employeeID to assign a bug to:");
+					String assignedUserTemp = (String) in.readObject();
+					assignedUser = Integer.parseInt(assignedUserTemp);
+					
+					sendMessage("Please enter bugID to assign:");
+					String assignedBugTemp = (String) in.readObject();
+					assignedBug = Integer.parseInt(assignedBugTemp);
+					
+					userListThread.assignBug(assignedUser, assignedBug);
+					
+					userListThread.updateData();
 				}
+				
 				
 
 				sendMessage("Please enter 1 to repeat or 2 to exit");
@@ -190,23 +207,30 @@ public class ServerThread extends Thread {
 				case 1:
 					choice = 2;
 					name = scanner.next();
-					// System.out.println("This is name " + name);
+					 //System.out.println("This is name " + name);
 					break;
 				case 2:
 					choice = 3;
 					employeeID = scanner.nextInt();
-					// System.out.println("This is employeeID " + employeeID);
+					 //System.out.println("This is employeeID " + employeeID);
 					break;
 				case 3:
 					choice = 4;
 					email = scanner.next();
-					// System.out.println("This is email " + email);
+					 //System.out.println("This is email " + email);
 					break;
 				case 4:
+					choice = 5;
+					department = scanner.next();
+					 //System.out.println("This is department " + department);
+					break;
+				case 5:
 					choice = 1;
-					department = scanner.nextLine();
-					department = department.replace(",", "");
-					userListThread.addUser(name, employeeID, email, department);
+					String assignedBugTemp = scanner.nextLine();
+					assignedBugTemp = assignedBugTemp.replace(",", "");
+					assignedBug = Integer.parseInt(assignedBugTemp);
+					//System.out.println("This is assignedBug " + assignedBug);
+					userListThread.addUser(name, employeeID, email, department, assignedBug);
 					break;
 				}
 

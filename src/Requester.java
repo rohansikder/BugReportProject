@@ -91,6 +91,17 @@ public class Requester{
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+					
+				}else if(message.equalsIgnoreCase("4")){
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
 				}
 				
 					
