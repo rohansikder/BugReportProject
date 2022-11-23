@@ -108,17 +108,9 @@ public class UserList {
 		Iterator<User> iter = users.iterator();
 		User temp;
 		
-		//Deletes old outdated file
-		File oldFile = new File("users.txt");           //file to be delete  
+		//Deletes old out dated file
+		File oldFile = new File("users.txt");
 		oldFile.delete();
-		
-	    File newFile = new File("filename.txt");
-	    try {
-			newFile.createNewFile();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		
 		while(iter.hasNext())
 		{
