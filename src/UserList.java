@@ -37,6 +37,21 @@ public class UserList {
 		return result;
 	}
 	
+	public synchronized int createID() {
+		Iterator<User> iter = users.iterator();
+		User temp;
+		int lastID = 0;
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			lastID = temp.getEmployeeID();
+		}
+		
+		lastID++;
+		
+		return lastID;
+	}
+	
 	public synchronized boolean checkLogin(String email, int id) {
 		Iterator<User> iter = users.iterator();
 		boolean emailCheck = false;
@@ -74,7 +89,7 @@ public class UserList {
 		 return check;
 	}
 	
-	public synchronized void assignBug(int id, int assignBug) {
+	public synchronized boolean assignBug(int id, int assignBug, boolean bugCheck) {
 
 		Iterator<User> iter = users.iterator();
 		boolean idCheck = false;
@@ -87,22 +102,20 @@ public class UserList {
 			
 			System.out.println();
 			
-			if(temp.getEmployeeID() == id) {
+			if(temp.getEmployeeID() == id && bugCheck == true) {
 				idCheck = true;
-				
 				temp.setAssignedBug(assignBug);
-				String test = getList();
-				System.out.println(test);
+				return idCheck;
 				
 			}else {
 				idCheck = false;
 			}
-			
-			
+	
 		}
 		
+		return idCheck;
+		
 	}
-	
 	
 	public synchronized void updateData() {
 		Iterator<User> iter = users.iterator();

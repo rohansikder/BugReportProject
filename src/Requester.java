@@ -42,8 +42,6 @@ public class Requester{
 					
 					message = (String)in.readObject();
 					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
 					
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -72,6 +70,10 @@ public class Requester{
 					sendMessage(message);
 					
 				}else if(message.equalsIgnoreCase("3")){
+					
+					message = (String)in.readObject();
+					System.out.println(message);
+					
 					message = (String)in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
@@ -102,6 +104,9 @@ public class Requester{
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+					
+					message = (String)in.readObject();
+					System.out.println(message);
 				}
 				
 					

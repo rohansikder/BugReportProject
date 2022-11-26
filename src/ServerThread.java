@@ -25,7 +25,7 @@ public class ServerThread extends Thread {
 	private String email;
 	private String department;
 	
-	private int assignedBug = 0;
+	private int assignedBug;
 	private int assignedUser;
 	
 	private int id = 0;
@@ -34,9 +34,11 @@ public class ServerThread extends Thread {
 	private String platform;
 	private String description;
 	private String status;
+
+	private boolean bugCheck;
+	private boolean verifyBugAssignment;
 	
-	
-	private boolean verifyLogin;
+	private boolean verifyLogin = false;
 
 	private BugList bugListThread;
 	private UserList userListThread;
@@ -75,14 +77,18 @@ public class ServerThread extends Thread {
 			do {
 				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer:");
 				message = (String) in.readObject();
-
+				
+				//Register user
 				if (message.equalsIgnoreCase("1")) {
+					
+					assignedBug = 0;
+					
 					sendMessage("Please enter name:");
 					name = (String) in.readObject();
-
-					sendMessage("Please enter employee ID:");
-					String employeeIDTemp = (String) in.readObject();
-					employeeID = Integer.parseInt(employeeIDTemp);
+					
+					employeeID = userListThread.createID();
+					
+					sendMessage("Your employee ID is: " + employeeID);
 
 					sendMessage("Please enter email:");
 					email = (String) in.readObject();
@@ -101,6 +107,7 @@ public class ServerThread extends Thread {
 
 					// Close the file.
 					out.close();
+				//Login
 				} else if (message.equalsIgnoreCase("2")) {
 					
 					sendMessage("Please enter email:");
@@ -117,10 +124,12 @@ public class ServerThread extends Thread {
 					}else {
 						sendMessage("Login is unsucsessfull please try again.");
 					}
-					
+				//Create bug
 				}else if (message.equalsIgnoreCase("3")) {
 					
-					id++;
+					id = bugListThread.createID();
+					
+					sendMessage("You bug has been assigned id of: " + id);
 					
 					sendMessage("Please enter application name:");
 					application = (String) in.readObject();
@@ -149,7 +158,7 @@ public class ServerThread extends Thread {
 
 					// Close the file.
 					out.close();
-					
+				//assign Bug
 				}else if (message.equalsIgnoreCase("4")) {
 					
 					sendMessage("Please enter employeeID to assign a bug to:");
@@ -160,14 +169,23 @@ public class ServerThread extends Thread {
 					String assignedBugTemp = (String) in.readObject();
 					assignedBug = Integer.parseInt(assignedBugTemp);
 					
-					userListThread.assignBug(assignedUser, assignedBug);
+					bugCheck = bugListThread.checkID(assignedBug);
+					
+					verifyBugAssignment = userListThread.assignBug(assignedUser, assignedBug, bugCheck);
+					
+					if(verifyBugAssignment == true) {
+						sendMessage("Bug ID: " + assignedBug + " has been assigned to user ID " + assignedUser);
+					}else {
+						sendMessage("Bug ID or User ID does not exist, Please try again.");
+					}
 					
 					userListThread.updateData();
+					
 				}
 				
-				
+		
 
-				sendMessage("Please enter 1 to repeat or 2 to exit");
+				sendMessage("Please enter 1 to go back to menu or 2 to exit");
 				message = (String) in.readObject();
 
 			} while (message.equalsIgnoreCase("1"));

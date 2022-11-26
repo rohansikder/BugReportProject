@@ -18,7 +18,40 @@ public class BugList {
 		bugs.add(b);
 	}
 	
-	public synchronized String getList()
+	public synchronized int createID() {
+		Iterator<Bug> iter = bugs.iterator();
+		Bug temp;
+		int uniqueId = 0;
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			uniqueId =temp.getId();
+		}
+		
+		uniqueId++;
+		
+		return uniqueId;
+	}
+	
+	public synchronized boolean checkID(int id) {
+		Iterator<Bug> iter = bugs.iterator();
+		Bug temp;
+		boolean idCheck = false;
+		int tempId;
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			tempId =temp.getId();
+			
+			if(tempId == id) {
+				idCheck = true;
+			}
+		}
+		
+		return idCheck;
+	}
+	
+ 	public synchronized String getList()
 	{
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -31,4 +64,5 @@ public class BugList {
 		
 		return result;
 	}
+	
 }
