@@ -121,11 +121,13 @@ public class ServerThread extends Thread {
 					
 					if(verifyLogin == true) {
 						sendMessage("Login is successful!");
+						sendLoginVerfication(verifyLogin);
 					}else {
 						sendMessage("Login is unsucsessfull please try again.");
+						sendLoginVerfication(verifyLogin);
 					}
 				//Create bug
-				}else if (message.equalsIgnoreCase("3")) {
+				}else if (message.equalsIgnoreCase("3") && verifyLogin == true) {
 					
 					id = bugListThread.createID();
 					
@@ -159,7 +161,7 @@ public class ServerThread extends Thread {
 					// Close the file.
 					out.close();
 				//assign Bug
-				}else if (message.equalsIgnoreCase("4")) {
+				}else if (message.equalsIgnoreCase("4") && verifyLogin == true) {
 					
 					sendMessage("Please enter employeeID to assign a bug to:");
 					String assignedUserTemp = (String) in.readObject();
@@ -181,9 +183,10 @@ public class ServerThread extends Thread {
 					
 					userListThread.updateData();
 					
+				}else {
+					sendMessage("You are not logged in, Please login to access this function!");
 				}
 				
-		
 
 				sendMessage("Please enter 1 to go back to menu or 2 to exit");
 				message = (String) in.readObject();
@@ -203,6 +206,18 @@ public class ServerThread extends Thread {
 			out.flush();
 			System.out.println("server>" + msg);
 		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		}
+	}
+	
+	void sendLoginVerfication(boolean loginStatus)
+	{
+		try{
+			out.writeObject(loginStatus);
+			out.flush();
+			//System.out.println("server>" + loginStatus);
+		}
+		catch(IOException ioException){
 			ioException.printStackTrace();
 		}
 	}

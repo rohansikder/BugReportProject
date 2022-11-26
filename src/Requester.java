@@ -8,6 +8,7 @@ public class Requester{
 	ObjectOutputStream out;
  	ObjectInputStream in;
  	String message;
+ 	Boolean verifyLogin = false;
  	Scanner input;
 	Requester()
 	{
@@ -66,18 +67,15 @@ public class Requester{
 					
 					message = (String)in.readObject();
 					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
 					
-				}else if(message.equalsIgnoreCase("3")){
+					verifyLogin = (Boolean)in.readObject();
+					//System.out.println("Login is " + verifyLogin);
+					
+					
+				}else if(message.equalsIgnoreCase("3") && verifyLogin == true){
 					
 					message = (String)in.readObject();
 					System.out.println(message);
-					
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
 					
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -94,7 +92,12 @@ public class Requester{
 					message = input.nextLine();
 					sendMessage(message);
 					
-				}else if(message.equalsIgnoreCase("4")){
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+				}else if(message.equalsIgnoreCase("4") && verifyLogin == true){
 					message = (String)in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
@@ -105,9 +108,13 @@ public class Requester{
 					message = input.nextLine();
 					sendMessage(message);
 					
+					message = (String)in.readObject();
+					System.out.println(message);
+				}else{
 					message = (String)in.readObject();
 					System.out.println(message);
 				}
+				
 				
 					
 				message = (String)in.readObject();
@@ -138,6 +145,7 @@ public class Requester{
 			}
 		}
 	}
+	
 	void sendMessage(String msg)
 	{
 		try{
@@ -149,6 +157,19 @@ public class Requester{
 			ioException.printStackTrace();
 		}
 	}
+	
+	void sendLoginVerfication(boolean loginStatus)
+	{
+		try{
+			out.writeObject(loginStatus);
+			out.flush();
+			//System.out.println("Client>" + loginStatus);
+		}
+		catch(IOException ioException){
+			ioException.printStackTrace();
+		}
+	}
+	
 	public static void main(String args[])
 	{
 		Requester client = new Requester();

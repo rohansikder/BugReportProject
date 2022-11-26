@@ -55,6 +55,19 @@ public class Provider{
 			ioException.printStackTrace();
 		}
 	}
+	
+	void sendLoginVerfication(boolean loginStatus)
+	{
+		try{
+			out.writeObject(loginStatus);
+			out.flush();
+			//System.out.println("server>" + loginStatus);
+		}
+		catch(IOException ioException){
+			ioException.printStackTrace();
+		}
+	}
+	
 	public static void main(String args[])
 	{
 		Provider server = new Provider();
