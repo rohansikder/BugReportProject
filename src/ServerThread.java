@@ -19,32 +19,33 @@ public class ServerThread extends Thread {
 	private BugList BList = new BugList();
 	private UserList UList = new UserList();
 
+	// User Variables
 	private String message;
 	private String name;
 	private int employeeID;
 	private String email;
 	private String department;
-	
+
+	// Bug assignment variables
 	private int assignedBug;
 	private int assignedUser;
-	
-	private int id = 0;
+	private boolean bugCheck;
+	private boolean verifyBugAssignment;
+
+	// Bug Variables
+	private int id;
 	private String application;
 	private String date;
+	Date myDate = new Date();
 	private String platform;
 	private String description;
 	private String status;
 
-	private boolean bugCheck;
-	private boolean verifyBugAssignment;
-	
+	// Variables to check login
 	private boolean verifyLogin = false;
 
 	private BugList bugListThread;
 	private UserList userListThread;
-	
-	Date myDate = new Date();
-
 
 	public ServerThread(Socket s, BugList bl, UserList ul) {
 		socket = s;
@@ -59,35 +60,33 @@ public class ServerThread extends Thread {
 			out.flush();
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//Reads in from files
+
+		// Reads in from files and bugs
 		readUsers();
 		readBugs();
-		
-		//Shows all users in userLinkedList
-		//System.out.println(userListThread.getList());
-		//System.out.println(bugListThread.getList());
 
+		// Shows all users in userLinkedList
+		// System.out.println(userListThread.getList());
+		// System.out.println(bugListThread.getList());
 
 		// Conversation from the server to the client
 		try {
 			do {
-				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer:");
+				sendMessage("Enter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer: \nEnter 5 to view all bugs that are not assigned to any developers:");
 				message = (String) in.readObject();
-				
-				//Register user
+
+				// Register user
 				if (message.equalsIgnoreCase("1")) {
-					
+
 					assignedBug = 0;
-					
+
 					sendMessage("Please enter name:");
 					name = (String) in.readObject();
-					
+
 					employeeID = userListThread.createID();
-					
+
 					sendMessage("Your employee ID is: " + employeeID);
 
 					sendMessage("Please enter email:");
@@ -102,91 +101,97 @@ public class ServerThread extends Thread {
 					// Add user to the list....
 					userListThread.addUser(name, employeeID, email, department, assignedBug);
 
-					//Saves user details to file
+					// Saves user details to file
 					out.println(name + "," + employeeID + "," + email + "," + department + "," + assignedBug);
 
 					// Close the file.
 					out.close();
-				//Login
+					// Login
 				} else if (message.equalsIgnoreCase("2")) {
-					
+
 					sendMessage("Please enter email:");
 					email = (String) in.readObject();
 
 					sendMessage("Please enter employee ID:");
 					String employeeIDTemp = (String) in.readObject();
 					employeeID = Integer.parseInt(employeeIDTemp);
-					
+
 					verifyLogin = userListThread.checkLogin(email, employeeID);
-					
-					if(verifyLogin == true) {
+
+					if (verifyLogin == true) {
 						sendMessage("Login is successful!");
 						sendLoginVerfication(verifyLogin);
-					}else {
+					} else {
 						sendMessage("Login is unsucsessfull please try again.");
 						sendLoginVerfication(verifyLogin);
 					}
-				//Create bug
-				}else if (message.equalsIgnoreCase("3") && verifyLogin == true) {
-					
+
+					// Create bug
+				} else if (message.equalsIgnoreCase("3") && verifyLogin == true) {
+
 					id = bugListThread.createID();
-					
+
 					sendMessage("You bug has been assigned id of: " + id);
-					
+
 					sendMessage("Please enter application name:");
 					application = (String) in.readObject();
-					
-					//Gets current date and time
+
+					// Gets current date and time
 					SimpleDateFormat currTimeStamp = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
 					date = currTimeStamp.format(myDate);
-					
+
 					sendMessage("Please enter platform:");
 					platform = (String) in.readObject();
-					
+
 					sendMessage("Please enter bug description:");
 					description = (String) in.readObject();
-					
+
 					sendMessage("Please enter status of bug:");
 					status = (String) in.readObject();
+					status.toUpperCase();
 					
 					FileWriter fw = new FileWriter("bugs.txt", true);
 					PrintWriter out = new PrintWriter(fw);
-					
+
 					// Add bugs to the list....
 					bugListThread.addBug(id, application, date, platform, description, status);
-					
-					//Saves bug details to file
-					out.println(id + "," + application + "," + date + "," + platform + "," + description + "," + status);
+
+					// Saves bug details to file
+					out.println(
+							id + "," + application + "," + date + "," + platform + "," + description + "," + status);
 
 					// Close the file.
 					out.close();
-				//assign Bug
-				}else if (message.equalsIgnoreCase("4") && verifyLogin == true) {
-					
+					// assign Bug
+				} else if (message.equalsIgnoreCase("4") && verifyLogin == true) {
+
 					sendMessage("Please enter employeeID to assign a bug to:");
 					String assignedUserTemp = (String) in.readObject();
 					assignedUser = Integer.parseInt(assignedUserTemp);
-					
+
 					sendMessage("Please enter bugID to assign:");
 					String assignedBugTemp = (String) in.readObject();
 					assignedBug = Integer.parseInt(assignedBugTemp);
-					
+
 					bugCheck = bugListThread.checkID(assignedBug);
-					
+
 					verifyBugAssignment = userListThread.assignBug(assignedUser, assignedBug, bugCheck);
-					
-					if(verifyBugAssignment == true) {
+
+					if (verifyBugAssignment == true) {
+						bugListThread.setStatus(assignedBug);
+						bugListThread.updateData();
 						sendMessage("Bug ID: " + assignedBug + " has been assigned to user ID " + assignedUser);
-					}else {
+					} else {
 						sendMessage("Bug ID or User ID does not exist, Please try again.");
 					}
-					
+
 					userListThread.updateData();
-					
-				}else {
+					//Shows all unassigned bugs
+				} else if (message.equalsIgnoreCase("5") && verifyLogin == true){
+					sendMessage(bugListThread.getUnassignedBugs());
+				} else {
 					sendMessage("You are not logged in, Please login to access this function!");
 				}
-				
 
 				sendMessage("Please enter 1 to go back to menu or 2 to exit");
 				message = (String) in.readObject();
@@ -209,15 +214,13 @@ public class ServerThread extends Thread {
 			ioException.printStackTrace();
 		}
 	}
-	
-	void sendLoginVerfication(boolean loginStatus)
-	{
-		try{
+
+	void sendLoginVerfication(boolean loginStatus) {
+		try {
 			out.writeObject(loginStatus);
 			out.flush();
-			//System.out.println("server>" + loginStatus);
-		}
-		catch(IOException ioException){
+			// System.out.println("server>" + loginStatus);
+		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
 	}
@@ -240,29 +243,29 @@ public class ServerThread extends Thread {
 				case 1:
 					choice = 2;
 					name = scanner.next();
-					 //System.out.println("This is name " + name);
+					// System.out.println("This is name " + name);
 					break;
 				case 2:
 					choice = 3;
 					employeeID = scanner.nextInt();
-					 //System.out.println("This is employeeID " + employeeID);
+					// System.out.println("This is employeeID " + employeeID);
 					break;
 				case 3:
 					choice = 4;
 					email = scanner.next();
-					 //System.out.println("This is email " + email);
+					// System.out.println("This is email " + email);
 					break;
 				case 4:
 					choice = 5;
 					department = scanner.next();
-					 //System.out.println("This is department " + department);
+					// System.out.println("This is department " + department);
 					break;
 				case 5:
 					choice = 1;
 					String assignedBugTemp = scanner.nextLine();
 					assignedBugTemp = assignedBugTemp.replace(",", "");
 					assignedBug = Integer.parseInt(assignedBugTemp);
-					//System.out.println("This is assignedBug " + assignedBug);
+					// System.out.println("This is assignedBug " + assignedBug);
 					userListThread.addUser(name, employeeID, email, department, assignedBug);
 					break;
 				}
@@ -277,7 +280,7 @@ public class ServerThread extends Thread {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	// Read in from file and populate bugs linkedList
 	public void readBugs() {
 		// Read in from file and populate bugs linkedList
@@ -291,8 +294,7 @@ public class ServerThread extends Thread {
 
 			// read all fields
 			while (scanner.hasNext()) {
-				
-				
+
 				switch (choice) {
 				case 1:
 					choice = 2;
@@ -302,28 +304,28 @@ public class ServerThread extends Thread {
 				case 2:
 					choice = 3;
 					application = scanner.next();
-					//System.out.println(application);
+					// System.out.println(application);
 					break;
 				case 3:
 					choice = 4;
 					date = scanner.next();
-					//System.out.println(date);
+					// System.out.println(date);
 					break;
 				case 4:
 					choice = 5;
 					platform = scanner.next();
-					//System.out.println(platform);
+					// System.out.println(platform);
 					break;
 				case 5:
 					choice = 6;
 					description = scanner.next();
-					//System.out.println(description);
+					// System.out.println(description);
 					break;
 				case 6:
 					choice = 1;
 					status = scanner.nextLine();
 					status = status.replace(",", "");
-					//System.out.println(status);
+					// System.out.println(status);
 					bugListThread.addBug(id, application, date, platform, description, status);
 					break;
 				}

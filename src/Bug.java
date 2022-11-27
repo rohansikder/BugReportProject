@@ -1,13 +1,13 @@
 
 public class Bug {
-	
+
 	private int id;
 	private String application;
 	private String date;
 	private String platform;
 	private String description;
 	private String status;
-	
+
 	public Bug(int id, String application, String date, String platform, String description, String status) {
 		super();
 		this.id = id;
@@ -17,7 +17,7 @@ public class Bug {
 		this.description = description;
 		this.status = status;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -41,7 +41,11 @@ public class Bug {
 	public String getStatus() {
 		return status;
 	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 	
-	
+
 }

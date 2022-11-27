@@ -1,4 +1,4 @@
-rohan,1,rohan@gmail.com,java,3
+rohan,1,rohan@gmail.com,java,2
 test,2,test@gmail.com,python,1
 john,3,john@gmail.com,go,3
 steve,4,steve@gmail.com,c++,2
