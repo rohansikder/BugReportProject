@@ -53,7 +53,7 @@ public class BugList {
 		return idCheck;
 	}
 	
-	public synchronized void setStatus(int bugId) {
+	public synchronized void setStatus(int bugId, String status) {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
 		int tempId;
@@ -63,7 +63,7 @@ public class BugList {
 			tempId = temp.getId();
 
 			if (tempId == bugId) {
-				temp.setStatus("ASSIGNED");
+				temp.setStatus(status);
 			}
 		}
 

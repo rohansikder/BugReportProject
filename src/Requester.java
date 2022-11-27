@@ -109,6 +109,21 @@ public class Requester {
 				} else if (message.equalsIgnoreCase("5") && verifyLogin == true){
 					message = (String) in.readObject();
 					System.out.println(message);
+				
+				} else if (message.equalsIgnoreCase("6") && verifyLogin == true){
+					
+					message = (String) in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+
+					message = (String) in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					message = (String) in.readObject();
+					System.out.println(message);
 					
 				} else {
 					message = (String) in.readObject();
