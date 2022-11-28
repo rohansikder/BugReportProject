@@ -15,13 +15,15 @@ public class BugList {
 	public synchronized LinkedList<Bug> getAllBugs() {
 		return bugs;
 	}
-
+	
+	//Adds bug to linked list
 	public synchronized void addBug(int id, String application, String date, String platform, String description,
 			String status) {
 		Bug b = new Bug(id, application, date, platform, description, status);
 		bugs.add(b);
 	}
-
+	
+	//Creates an id by getting the last id from the bugs and incrementing it
 	public synchronized int createID() {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -36,6 +38,7 @@ public class BugList {
 		return uniqueId;
 	}
 
+	//Checks if BugId exists
 	public synchronized boolean checkID(int id) {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -53,6 +56,7 @@ public class BugList {
 		return idCheck;
 	}
 	
+	//Changes status of bug in the linked list
 	public synchronized void setStatus(int bugId, String status) {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -68,7 +72,8 @@ public class BugList {
 		}
 
 	}
-
+	
+	//Prints out all unassigned bugs - Checks if status is ASSIGNED
 	public synchronized String getUnassignedBugs() {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -85,6 +90,7 @@ public class BugList {
 		return unassignedBugs;
 	}
 	
+	//Updates bugs.txt file after linkedList is updated.
 	public synchronized void updateData() {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
@@ -92,7 +98,8 @@ public class BugList {
 		// Deletes old out dated file
 		File oldFile = new File("bugs.txt");
 		oldFile.delete();
-
+		
+		//Writes all of linkedList info back into text file
 		while (iter.hasNext()) {		
 			try {
 				temp = iter.next();
@@ -100,7 +107,7 @@ public class BugList {
 				FileWriter fw = new FileWriter("bugs.txt", true);
 				PrintWriter out = new PrintWriter(fw);
 
-				// Add user to the list....
+				// Add bug to the list....
 				out.println(temp.getId() + "," + temp.getApplication() + "," + temp.getDate() + ","
 						+ temp.getPlatform() + "," + temp.getDescription() + "," + temp.getStatus());
 

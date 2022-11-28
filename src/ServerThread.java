@@ -16,9 +16,6 @@ public class ServerThread extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 
-	private BugList BList = new BugList();
-	private UserList UList = new UserList();
-
 	// User Variables
 	private String message;
 	private String name;
@@ -66,7 +63,7 @@ public class ServerThread extends Thread {
 			e.printStackTrace();
 		}
 
-		// Reads in from files and bugs
+		// Reads in from files and fills linkedList
 		readUsers();
 		readBugs();
 
@@ -114,9 +111,11 @@ public class ServerThread extends Thread {
 					sendMessage("Please enter employee ID:");
 					String employeeIDTemp = (String) in.readObject();
 					employeeID = Integer.parseInt(employeeIDTemp);
-
+					
+					
+					//Checks login details 
 					verifyLogin = userListThread.checkLogin(email, employeeID);
-
+					
 					if (verifyLogin == true) {
 						sendMessage("Login is successful!");
 						sendLoginVerfication(verifyLogin);
@@ -171,9 +170,10 @@ public class ServerThread extends Thread {
 					sendMessage("Please enter bugID to assign:");
 					String assignedBugTemp = (String) in.readObject();
 					assignedBug = Integer.parseInt(assignedBugTemp);
-
+					
+					//Checks if bug exists
 					bugCheck = bugListThread.checkID(assignedBug);
-
+					
 					verifyBugAssignment = userListThread.assignBug(assignedUser, assignedBug, bugCheck);
 
 					if (verifyBugAssignment == true) {
@@ -210,6 +210,7 @@ public class ServerThread extends Thread {
 						sendMessage("BugId does not exist, Please try again!");
 					}
 					
+					//the if statement breaks out as the user is not logged in
 				} else {
 					sendMessage("You are not logged in, Please login to access this function!");
 				}
@@ -236,7 +237,8 @@ public class ServerThread extends Thread {
 		}
 	}
 
-	void sendLoginVerfication(boolean loginStatus) {
+	//Sends Flag to check if user is logged in 
+	public void sendLoginVerfication(boolean loginStatus) {
 		try {
 			out.writeObject(loginStatus);
 			out.flush();

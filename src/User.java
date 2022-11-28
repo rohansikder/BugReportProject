@@ -15,7 +15,8 @@ public class User {
 		this.department = department;
 		this.assignedBug = assignedBug;
 	}
-
+	
+	//Getters and Setters
 	public String getName() {
 		return name;
 	}

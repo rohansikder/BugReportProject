@@ -26,11 +26,13 @@ public class Requester {
 
 			// 3: Communicating with the server from the client
 			do {
+				//Menu
 				message = (String) in.readObject();
 				System.out.println(message);
 				message = input.nextLine();
 				sendMessage(message);
-
+				
+				// Register user
 				if (message.equalsIgnoreCase("1")) {
 					message = (String) in.readObject();
 					System.out.println(message);
@@ -49,6 +51,8 @@ public class Requester {
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+					
+					// Login
 				} else if (message.equalsIgnoreCase("2")) {
 
 					message = (String) in.readObject();
@@ -66,7 +70,8 @@ public class Requester {
 
 					verifyLogin = (Boolean) in.readObject();
 					// System.out.println("Login is " + verifyLogin);
-
+					
+					// Create bug
 				} else if (message.equalsIgnoreCase("3") && verifyLogin == true) {
 
 					message = (String) in.readObject();
@@ -92,6 +97,7 @@ public class Requester {
 					message = input.nextLine();
 					sendMessage(message);
 
+					// Assign Bug
 				} else if (message.equalsIgnoreCase("4") && verifyLogin == true) {
 					message = (String) in.readObject();
 					System.out.println(message);
@@ -106,10 +112,12 @@ public class Requester {
 					message = (String) in.readObject();
 					System.out.println(message);
 					
+					//Shows all unassigned bugs
 				} else if (message.equalsIgnoreCase("5") && verifyLogin == true){
 					message = (String) in.readObject();
 					System.out.println(message);
 				
+					//Change status of bugs
 				} else if (message.equalsIgnoreCase("6") && verifyLogin == true){
 					
 					message = (String) in.readObject();
@@ -125,11 +133,12 @@ public class Requester {
 					message = (String) in.readObject();
 					System.out.println(message);
 					
+					//the if statement breaks out as the user is not logged in
 				} else {
 					message = (String) in.readObject();
 					System.out.println(message);
 				}
-
+				
 				message = (String) in.readObject();
 				System.out.println(message);
 				message = input.nextLine();
@@ -162,7 +171,8 @@ public class Requester {
 			ioException.printStackTrace();
 		}
 	}
-
+	
+	//Sends Flag to check if user is logged in
 	void sendLoginVerfication(boolean loginStatus) {
 		try {
 			out.writeObject(loginStatus);

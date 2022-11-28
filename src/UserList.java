@@ -15,12 +15,14 @@ public class UserList {
 	public synchronized LinkedList<User> getAllUsers() {
 		return users;
 	}
-
+	
+	//Add a user to the linked list
 	public synchronized void addUser(String name, int employeeID, String email, String department, int assingedBug) {
 		User u = new User(name, employeeID, email, department, assingedBug);
 		users.add(u);
 	}
-
+	
+	//Shows all info in the User linkedList
 	public synchronized String getList() {
 		Iterator<User> iter = users.iterator();
 		User temp;
@@ -33,7 +35,8 @@ public class UserList {
 
 		return result;
 	}
-
+	
+	//Creates an id by getting the last id from the users and incrementing it
 	public synchronized int createID() {
 		Iterator<User> iter = users.iterator();
 		User temp;
@@ -48,6 +51,7 @@ public class UserList {
 		return lastID;
 	}
 
+	//Checks login details exits in users.
 	public synchronized boolean checkLogin(String email, int id) {
 		Iterator<User> iter = users.iterator();
 		boolean emailCheck = false;
@@ -84,6 +88,7 @@ public class UserList {
 		return check;
 	}
 
+	//Assigns a bug to the user and checks if bug they want to assign exists
 	public synchronized boolean assignBug(int id, int assignBug, boolean bugCheck) {
 
 		Iterator<User> iter = users.iterator();
@@ -111,6 +116,7 @@ public class UserList {
 
 	}
 	
+	//Updates the user.txt file after linked list is changed
 	public synchronized void updateData() {
 		Iterator<User> iter = users.iterator();
 		User temp;
@@ -118,7 +124,8 @@ public class UserList {
 		// Deletes old out dated file
 		File oldFile = new File("users.txt");
 		oldFile.delete();
-
+		
+		//Creates a new file and writes users back in
 		while (iter.hasNext()) {
 			try {
 				temp = iter.next();

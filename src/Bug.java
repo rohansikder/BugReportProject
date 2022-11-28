@@ -17,7 +17,9 @@ public class Bug {
 		this.description = description;
 		this.status = status;
 	}
-
+	
+	
+	//Getters and setters
 	public int getId() {
 		return id;
 	}

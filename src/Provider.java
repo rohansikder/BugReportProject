@@ -52,7 +52,8 @@ public class Provider {
 			ioException.printStackTrace();
 		}
 	}
-
+	
+	//Sends Flag to check if user is logged in
 	void sendLoginVerfication(boolean loginStatus) {
 		try {
 			out.writeObject(loginStatus);
