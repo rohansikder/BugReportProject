@@ -1,14 +1,11 @@
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 
 public class ServerThread extends Thread {
 
@@ -63,9 +60,10 @@ public class ServerThread extends Thread {
 			e.printStackTrace();
 		}
 
+		//CHANGE - Make the linkedList initiliaze from provider so there is only one instance of linkedlist
 		// Reads in from files and fills linkedList
-		readUsers();
-		readBugs();
+		//readUsers();
+		//readBugs();
 
 		// Conversation from the server to the client
 		try {
@@ -245,122 +243,6 @@ public class ServerThread extends Thread {
 			// System.out.println("server>" + loginStatus);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
-		}
-	}
-
-	// Read in from file and populate users linkedList
-	public void readUsers() {
-		try {
-			// create scanner instance - Tried with CSV but gave weird characters first name
-			Scanner scanner = new Scanner(Paths.get("users.txt").toFile());
-
-			// set comma as delimiter
-			scanner.useDelimiter(",");
-
-			int choice = 1;
-
-			// read all fields
-			while (scanner.hasNext()) {
-
-				switch (choice) {
-				case 1:
-					choice = 2;
-					name = scanner.next();
-					// System.out.println("This is name " + name);
-					break;
-				case 2:
-					choice = 3;
-					employeeID = scanner.nextInt();
-					// System.out.println("This is employeeID " + employeeID);
-					break;
-				case 3:
-					choice = 4;
-					email = scanner.next();
-					// System.out.println("This is email " + email);
-					break;
-				case 4:
-					choice = 5;
-					department = scanner.next();
-					// System.out.println("This is department " + department);
-					break;
-				case 5:
-					choice = 1;
-					String assignedBugTemp = scanner.nextLine();
-					assignedBugTemp = assignedBugTemp.replace(",", "");
-					assignedBug = Integer.parseInt(assignedBugTemp);
-					// System.out.println("This is assignedBug " + assignedBug);
-					userListThread.addUser(name, employeeID, email, department, assignedBug);
-					break;
-				}
-
-			}
-
-			// close the scanner
-			scanner.close();
-
-		} catch (FileNotFoundException ex) {
-			System.out.println("File with all users is not available!");
-			ex.printStackTrace();
-		}
-	}
-
-	// Read in from file and populate bugs linkedList
-	public void readBugs() {
-		// Read in from file and populate bugs linkedList
-		try {
-			Scanner scanner = new Scanner(Paths.get("bugs.txt").toFile());
-
-			// set comma as delimiter
-			scanner.useDelimiter(",");
-
-			int choice = 1;
-
-			// read all fields
-			while (scanner.hasNext()) {
-
-				switch (choice) {
-				case 1:
-					choice = 2;
-					id = scanner.nextInt();
-					System.out.println(id);
-					break;
-				case 2:
-					choice = 3;
-					application = scanner.next();
-					// System.out.println(application);
-					break;
-				case 3:
-					choice = 4;
-					date = scanner.next();
-					// System.out.println(date);
-					break;
-				case 4:
-					choice = 5;
-					platform = scanner.next();
-					// System.out.println(platform);
-					break;
-				case 5:
-					choice = 6;
-					description = scanner.next();
-					// System.out.println(description);
-					break;
-				case 6:
-					choice = 1;
-					status = scanner.nextLine();
-					status = status.replace(",", "");
-					// System.out.println(status);
-					bugListThread.addBug(id, application, date, platform, description, status);
-					break;
-				}
-
-			}
-
-			// close the scanner
-			scanner.close();
-
-		} catch (FileNotFoundException ex) {
-			System.out.println("File with all bugs is not available!");
-			ex.printStackTrace();
 		}
 	}
 }
