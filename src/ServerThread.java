@@ -38,7 +38,7 @@ public class ServerThread extends Thread {
 	private int statusID;
 	private String newStatus;
 
-	// Variables to check login
+	// Variables to check login - Change to true if you want to bypass login
 	private boolean verifyLogin = false;
 
 	private BugList bugListThread;
@@ -60,21 +60,14 @@ public class ServerThread extends Thread {
 			e.printStackTrace();
 		}
 
-		//CHANGE - Make the linkedList initiliaze from provider so there is only one instance of linkedlist
-		// Reads in from files and fills linkedList
-		//readUsers();
-		//readBugs();
-
 		// Conversation from the server to the client
 		try {
 			do {
-				sendMessage("Welcome to Bug Tracker app, Please register or login to access all functionaliy: \nEnter 1 to register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer: \nEnter 5 to view all bugs that are not assigned to any developers:\nEnter 6 to change ths status of a bug:");
+				sendMessage("Welcome to Bug Tracker app, Please Register and/or login to access all functionaliy: \nEnter 1 to Register:\nEnter 2 to Login: \nEnter 3 to Add bug: \nEnter 4 to assign a bug to a developer: \nEnter 5 to view all bugs that are not assigned to any developers:\nEnter 6 to change ths status of a bug:");
 				message = (String) in.readObject();
 
 				// Register user
 				if (message.equalsIgnoreCase("1")) {
-
-					assignedBug = 0;
 
 					sendMessage("Please enter name:");
 					name = (String) in.readObject();
@@ -93,10 +86,10 @@ public class ServerThread extends Thread {
 					PrintWriter out = new PrintWriter(fw);
 
 					// Add user to the list....
-					userListThread.addUser(name, employeeID, email, department, assignedBug);
+					userListThread.addUser(name, employeeID, email, department, 0);
 
 					// Saves user details to file
-					out.println(name + "," + employeeID + "," + email + "," + department + "," + assignedBug);
+					out.println(name + "," + employeeID + "," + email + "," + department + "," + 0);
 
 					// Close the file.
 					out.close();
@@ -144,17 +137,16 @@ public class ServerThread extends Thread {
 
 					sendMessage("Please enter status of bug:(OPEN, CLOSED, ASSIGNED)");
 					status = (String) in.readObject();
-					status.toUpperCase();
 					
 					FileWriter fw = new FileWriter("bugs.txt", true);
 					PrintWriter out = new PrintWriter(fw);
 
 					// Add bugs to the list....
-					bugListThread.addBug(id, application, date, platform, description, status);
+					bugListThread.addBug(id, application, date, platform, description, status.toUpperCase());
 
 					// Saves bug details to file
 					out.println(
-							id + "," + application + "," + date + "," + platform + "," + description + "," + status);
+							id + "," + application + "," + date + "," + platform + "," + description + "," + status.toUpperCase());
 
 					// Close the file.
 					out.close();
@@ -229,7 +221,7 @@ public class ServerThread extends Thread {
 		try {
 			out.writeObject(msg);
 			out.flush();
-			System.out.println("server>" + msg);
+			System.out.println("Server>" + msg);
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}

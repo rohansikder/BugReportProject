@@ -2,3 +2,5 @@
 2,Excel,2022-11-12:12-47-11,Mac,Sheet not saving,CLOSED
 3,Eclipse,2022-11-22:13-07-47,Windows,Crashing when opening curropt file,CLOSED
 4,Chrome,2022-11-26:21-29-36,Windows,Crashes when downloading png file,OPEN
+5,Notes,2022-12-06:10-05-46,UNIX,Notes crash when photo is imported,OPEN
+6,VSCode,2022-12-06:10-16-35,LINUX,Crashes with json,OPEN

@@ -15,12 +15,14 @@ public class Provider {
 	UserList sharedUser;
 	BugList sharedBug;
 	
+	//User details variables
 	String name;
 	int employeeID;
 	String email;
 	String department;
 	int assignedBug;
 	
+	//Bug Details variables
 	int id;
 	String application;
 	String date;
@@ -40,7 +42,6 @@ public class Provider {
 			
 			readUsers();
 			readBugs();
-			//System.out.println(sharedBug.showAllBugs());
 			
 			// 2. Wait for connection
 			while (true) {
@@ -74,7 +75,6 @@ public class Provider {
 		}
 	}
 	
-	
 	// Read in from file and populate users linkedList
 	public void readUsers() {
 			try {
@@ -88,8 +88,6 @@ public class Provider {
 
 				// read all fields
 				while (scanner.hasNext()) {
-					
-					
 					
 					switch (choice) {
 					case 1:
@@ -193,7 +191,6 @@ public class Provider {
 			}
 		}
 
-	
 	//Sends Flag to check if user is logged in
 	void sendLoginVerfication(boolean loginStatus) {
 		try {
