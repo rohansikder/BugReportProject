@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//Rohan Sikder - G00389052
 public class ServerThread extends Thread {
 
 	private Socket socket;
@@ -18,6 +19,7 @@ public class ServerThread extends Thread {
 	private String name;
 	private int employeeID;
 	private String email;
+	private boolean checkEmail = true;
 	private String department;
 
 	// Bug assignment variables
@@ -81,18 +83,27 @@ public class ServerThread extends Thread {
 
 					sendMessage("Please enter department:");
 					department = (String) in.readObject();
+					
+					checkEmail = userListThread.checkEmail(email);
+					
+					if(checkEmail == false) {
+						FileWriter fw = new FileWriter("users.txt", true);
+						PrintWriter out = new PrintWriter(fw);
 
-					FileWriter fw = new FileWriter("users.txt", true);
-					PrintWriter out = new PrintWriter(fw);
+						// Add user to the list....
+						userListThread.addUser(name, employeeID, email, department, 0);
 
-					// Add user to the list....
-					userListThread.addUser(name, employeeID, email, department, 0);
+						// Saves user details to file
+						out.println(name + "," + employeeID + "," + email + "," + department + "," + 0);
 
-					// Saves user details to file
-					out.println(name + "," + employeeID + "," + email + "," + department + "," + 0);
-
-					// Close the file.
-					out.close();
+						// Close the file.
+						out.close();
+						sendMessage("Account created!");
+					} else {
+						sendMessage("This email is already has a account. Please try again with a new email.");
+						
+					}
+					
 					// Login
 				} else if (message.equalsIgnoreCase("2")) {
 

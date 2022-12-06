@@ -1,8 +1,8 @@
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+//Rohan Sikder - G00389052
 public class Requester {
 	Socket requestSocket;
 	ObjectOutputStream out;
@@ -52,6 +52,9 @@ public class Requester {
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+					
+					message = (String) in.readObject();
+					System.out.println(message);
 					
 					// Login
 				} else if (message.equalsIgnoreCase("2")) {

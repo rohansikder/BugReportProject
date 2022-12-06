@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+//Rohan Sikder - G00389052
 public class UserList {
 
 	private LinkedList<User> users;
@@ -34,6 +35,31 @@ public class UserList {
 		}
 
 		return result;
+	}
+	
+	//Checks if email already exists
+	public synchronized boolean checkEmail(String email) {
+		Iterator<User> iter = users.iterator();
+		boolean emailCheck = false;
+		boolean check = false;
+		User temp;
+
+		// Checks through email to check if they match
+		while (iter.hasNext()) {
+			temp = iter.next();
+
+			if (temp.getEmail().equals(email)) {
+				emailCheck = true;
+				// System.out.println("Email true");
+			} else {
+				emailCheck = false;
+			}
+			
+			if (emailCheck == true) {
+				check = true;
+			}
+		}
+		return check;		
 	}
 	
 	//Creates an id by getting the last id from the users and incrementing it
