@@ -70,13 +70,9 @@ public class ServerThread extends Thread {
 
 				// Register user
 				if (message.equalsIgnoreCase("1")) {
-
+					
 					sendMessage("Please enter name:");
 					name = (String) in.readObject();
-
-					employeeID = userListThread.createID();
-
-					sendMessage("Your employee ID is: " + employeeID);
 
 					sendMessage("Please enter email:");
 					email = (String) in.readObject();
@@ -91,14 +87,14 @@ public class ServerThread extends Thread {
 						PrintWriter out = new PrintWriter(fw);
 
 						// Add user to the list....
-						userListThread.addUser(name, employeeID, email, department, 0);
+						userListThread.addUser(name,employeeID = userListThread.createID(), email, department, 0);
 
 						// Saves user details to file
 						out.println(name + "," + employeeID + "," + email + "," + department + "," + 0);
 
 						// Close the file.
 						out.close();
-						sendMessage("Account created!");
+						sendMessage("Account created! Your employee id is " + employeeID);
 					} else {
 						sendMessage("This email is already has a account. Please try again with a new email.");
 						
@@ -129,10 +125,6 @@ public class ServerThread extends Thread {
 					// Create bug
 				} else if (message.equalsIgnoreCase("3") && verifyLogin == true) {
 
-					id = bugListThread.createID();
-
-					sendMessage("You bug has been assigned id of: " + id);
-
 					sendMessage("Please enter application name:");
 					application = (String) in.readObject();
 
@@ -153,12 +145,13 @@ public class ServerThread extends Thread {
 					PrintWriter out = new PrintWriter(fw);
 
 					// Add bugs to the list....
-					bugListThread.addBug(id, application, date, platform, description, status.toUpperCase());
+					bugListThread.addBug(id = bugListThread.createID(), application, date, platform, description, status.toUpperCase());
 
 					// Saves bug details to file
 					out.println(
 							id + "," + application + "," + date + "," + platform + "," + description + "," + status.toUpperCase());
-
+					
+					sendMessage("You bug has been assigned id of: " + id);
 					// Close the file.
 					out.close();
 					// assign Bug

@@ -48,7 +48,7 @@ public class UserList {
 		while (iter.hasNext()) {
 			temp = iter.next();
 
-			if (temp.getEmail().equals(email)) {
+			if (temp.getEmail().equalsIgnoreCase(email)) {
 				emailCheck = true;
 				// System.out.println("Email true");
 			} else {
@@ -92,7 +92,7 @@ public class UserList {
 			// System.out.println(temp.getEmail() + email);
 			// System.out.println(temp.getEmployeeID() + id);
 
-			if (temp.getEmail().equals(email)) {
+			if (temp.getEmail().equalsIgnoreCase(email)) {
 				emailCheck = true;
 				// System.out.println("Email true");
 			} else {

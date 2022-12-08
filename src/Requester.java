@@ -34,14 +34,11 @@ public class Requester {
 				sendMessage(message);
 				
 				// Register user
-				if (message.equalsIgnoreCase("1")) {
+				if (message.equalsIgnoreCase("1")) {					
 					message = (String) in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
-
-					message = (String) in.readObject();
-					System.out.println(message);
 
 					message = (String) in.readObject();
 					System.out.println(message);
@@ -80,9 +77,6 @@ public class Requester {
 
 					message = (String) in.readObject();
 					System.out.println(message);
-
-					message = (String) in.readObject();
-					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
 
@@ -100,6 +94,9 @@ public class Requester {
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
+					
+					message = (String) in.readObject();
+					System.out.println(message);
 
 					// Assign Bug
 				} else if (message.equalsIgnoreCase("4") && verifyLogin == true) {
