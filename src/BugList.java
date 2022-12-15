@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class BugList {
 
 	private LinkedList<Bug> bugs;
@@ -12,7 +13,8 @@ public class BugList {
 	public BugList() {
 		bugs = new LinkedList<>();
 	}
-
+	
+	//G
 	public synchronized LinkedList<Bug> getAllBugs() {
 		return bugs;
 	}
@@ -29,11 +31,14 @@ public class BugList {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
 		int uniqueId = 0;
+		//Iterates through all bugs
 		while (iter.hasNext()) {
+			//Iterates through inside BugID's- Gets the last Bug ID
 			temp = iter.next();
 			uniqueId = temp.getId();
 		}
-
+		
+		//Incrementing it And returning new uniqueID 
 		uniqueId++;
 
 		return uniqueId;
@@ -45,7 +50,9 @@ public class BugList {
 		Bug temp;
 		boolean idCheck = false;
 		int tempId;
+		//Iterates through all bugs
 		while (iter.hasNext()) {
+			//Iterates through inside BugID' checks if bugID that already exists
 			temp = iter.next();
 			tempId = temp.getId();
 
@@ -62,11 +69,13 @@ public class BugList {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
 		int tempId;
+		//Iterates through all bugs
 		while (iter.hasNext()) {
-			
+			//Finds BugId that user wants to update
 			temp = iter.next();
 			tempId = temp.getId();
-
+			
+			//Then assignes new status to that bug
 			if (tempId == bugId) {
 				temp.setStatus(status);
 			}
@@ -79,9 +88,10 @@ public class BugList {
 		Iterator<Bug> iter = bugs.iterator();
 		Bug temp;
 		String unassignedBugs = "\nBelow Bugs are not assigned: \n";
+		//Iterates through all bugs
 		while (iter.hasNext()) {
 			temp = iter.next();
-			
+			//If bug is unassigned it concatanes unassigned Bug into string and then returns that string
 			if(temp.getStatus().equalsIgnoreCase("ASSIGNED") == false) {
 				unassignedBugs = unassignedBugs + temp.getId() + " " + temp.getApplication() + " " + temp.getDate() + " "
 						+ temp.getPlatform() + " " + temp.getDescription() + " " + temp.getStatus() + "\n";

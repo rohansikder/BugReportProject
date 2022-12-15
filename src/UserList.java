@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class UserList {
 
 	private LinkedList<User> users;
@@ -28,7 +29,9 @@ public class UserList {
 		Iterator<User> iter = users.iterator();
 		User temp;
 		String result = "";
+		//Iterates through all users
 		while (iter.hasNext()) {
+			//Iterates inside the user and adds all info to a string
 			temp = iter.next();
 			result = result + temp.getName() + " " + temp.getEmployeeID() + " " + temp.getEmail() + " "
 					+ temp.getDepartment() + " " + temp.getAssignedBug() + "\n";
@@ -45,9 +48,11 @@ public class UserList {
 		User temp;
 
 		// Checks through email to check if they match
+		//Iterates through all users
 		while (iter.hasNext()) {
 			temp = iter.next();
-
+			
+			//If email exists and matches with email that is inputed true is returned
 			if (temp.getEmail().equalsIgnoreCase(email)) {
 				emailCheck = true;
 				// System.out.println("Email true");
@@ -67,11 +72,14 @@ public class UserList {
 		Iterator<User> iter = users.iterator();
 		User temp;
 		int lastID = 0;
+		//Iterates through all users
 		while (iter.hasNext()) {
+			//Iterates through inside UserID- Gets the last user ID
 			temp = iter.next();
 			lastID = temp.getEmployeeID();
 		}
-
+		
+		//Incrementing it And returning new uniqueID
 		lastID++;
 
 		return lastID;
@@ -91,7 +99,8 @@ public class UserList {
 
 			// System.out.println(temp.getEmail() + email);
 			// System.out.println(temp.getEmployeeID() + id);
-
+			
+			//Checks if login details exist in the linkedList
 			if (temp.getEmail().equalsIgnoreCase(email)) {
 				emailCheck = true;
 				// System.out.println("Email true");

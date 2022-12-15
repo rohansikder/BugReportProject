@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class Provider {
 	ServerSocket providerSocket;
 	Socket connection = null;
@@ -41,6 +42,7 @@ public class Provider {
 			sharedUser = new UserList();
 			sharedBug = new BugList();
 			
+			//Reading Users and Bugs
 			readUsers();
 			readBugs();
 			
@@ -143,9 +145,10 @@ public class Provider {
 
 				int choice = 1;
 
-				// read all fields
+				//Reads First Line
 				while (scanner.hasNext()) {
-
+					
+					//Reads individual string/int before reaching the delimiter
 					switch (choice) {
 					case 1:
 						choice = 2;
@@ -174,6 +177,7 @@ public class Provider {
 						break;
 					case 6:
 						choice = 1;
+						//Reads last value and then goes to next line
 						status = scanner.nextLine();
 						status = status.replace(",", "");
 						//System.out.println(status);

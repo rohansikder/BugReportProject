@@ -1,4 +1,5 @@
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class Bug {
 
 	private int id;
@@ -47,7 +48,6 @@ public class Bug {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
 	
 
 }

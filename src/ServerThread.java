@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class ServerThread extends Thread {
 
 	private Socket socket;
@@ -46,6 +47,7 @@ public class ServerThread extends Thread {
 	private BugList bugListThread;
 	private UserList userListThread;
 
+	
 	public ServerThread(Socket s, BugList bl, UserList ul) {
 		socket = s;
 		bugListThread = bl;
@@ -176,7 +178,7 @@ public class ServerThread extends Thread {
 						sendMessage("Bug ID: " + assignedBug + " has been assigned to user ID " + assignedUser);
 					} else {
 						sendMessage("Bug ID or User ID does not exist, Please try again.");
-					}
+					}	
 
 					userListThread.updateData();
 					//Shows all unassigned bugs
@@ -194,8 +196,8 @@ public class ServerThread extends Thread {
 					sendMessage("Please enter new status of bug:(OPEN, CLOSED, ASSIGNED)");
 					newStatus = (String) in.readObject();
 					
-					
-					if(bugListThread.checkID(statusID)) {
+						
+					if(bugListThread.checkID(statusID)) {	
 						sendMessage("Bug " + statusID + " status is now: " + newStatus.toUpperCase());
 						bugListThread.setStatus(statusID, newStatus.toUpperCase());
 						bugListThread.updateData();

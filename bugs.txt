@@ -4,3 +4,4 @@
 4,Chrome,2022-11-26:21-29-36,Windows,Crashes when downloading png file,OPEN
 5,Notes,2022-12-06:10-05-46,UNIX,Notes crash when photo is imported,OPEN
 6,VSCode,2022-12-06:10-16-35,LINUX,Crashes with json,OPEN
+7,finalApp,2022-12-15:11-11-02,finalPlat,finalPlat Desc,CLOSED

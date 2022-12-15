@@ -3,6 +3,7 @@ import java.net.*;
 import java.util.Scanner;
 
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class Requester {
 	Socket requestSocket;
 	ObjectOutputStream out;
@@ -12,7 +13,7 @@ public class Requester {
 	Scanner input;
 
 	Requester() {
-		input = new Scanner(System.in);
+		input = new Scanner(System.in);	
 	}
 
 	void run() {

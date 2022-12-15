@@ -1,4 +1,5 @@
 //Rohan Sikder - G00389052
+//GitHub - https://github.com/rohansikder/BugReportProject
 public class User {
 
 	private String name;
